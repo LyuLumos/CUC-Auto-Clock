@@ -1,7 +1,7 @@
 import requests
 import json
 import datetime
-import info
+from ljy import info
 import re
 import time
 
