@@ -18,6 +18,6 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          apt update
-          apt install python
+          pip install requests
+          pip list
           python main.py
