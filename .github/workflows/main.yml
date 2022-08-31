@@ -3,7 +3,7 @@ name: CUC-Auto-Clock CI
 on:
   schedule:
     # 由于这周开学，暂时不在周末运行
-  	- cron: "0 11 * * 1-5"
+    - cron: "0 8 * * 1-5"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
