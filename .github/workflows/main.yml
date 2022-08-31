@@ -1,6 +1,10 @@
 name: CUC-Auto-Clock CI
 
 on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   schedule:
     # 由于这周开学，暂时不在周末运行
     - cron: "0 8 * * 1-5"
@@ -13,11 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      - name: Run a multi-line script
+      - name: Run the Python script
         run: |
-          pip install requests
-          pip list
           python main.py
