@@ -6,8 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    # 由于这周开学，暂时不在周末运行
-    - cron: "0 8 * * 1-5"
+    - cron: "0 8 * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run the Python script
+      - name: Run the Python Script for ljy
+        env:
+          ljy_stuno: ${{ secrets.LJY_STUDENT_NUMBER }}
+          ljy_passwd: ${{ secrets.LJY_PASSWORD }}
         run: |
-          python main.py
+          python main.py -s "$ljy_stuno" -p "$ljy_passwd"

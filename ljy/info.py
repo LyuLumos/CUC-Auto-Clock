@@ -1,6 +1,6 @@
 userAgent = "Mozilla/5.0 (Linux; Android 10; PCT-AL10 Build/HUAWEIPCT-AL10; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36"
-studentNumber = "202220083900004"
-pwd = "Ljy62442"
+studentNumber = ""
+pwd = ""
 
 college = "计算机与网络空间安全学院"
 department = "网络空间安全"

@@ -1,9 +1,12 @@
-import requests
-import json
+import argparse
 import datetime
-from ljy import info
+import json
 import re
 import time
+
+import requests
+
+from ljy import info
 
 true = True
 false = False
@@ -258,25 +261,50 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, 
     print(response.text)
 
 
-if __name__ == '__main__':
-    sno = info.studentNumber
-    pwd = info.pwd
-    UA = info.userAgent
-    college = info.college
-    dept = info.department
-    class_ = info.class_
-    pno = info.phoneNumber
-    sname = info.studentName
-    curplace = info.curplace
-    province = info.province
-    city = info.city
-    district = info.district
-    detail = info.detailAddress
-    latitude = info.latitude
-    longitude = info.longitude
-    dorm = info.dorm
+def arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-s", "--studentNumber", help="校园卡账号")
+    parser.add_argument("--userAgent", help="User Agent")
+    parser.add_argument("-p", "--password", help="校园网密码")
+    parser.add_argument("--college", default="计算机与网络空间安全学院", help="学院")
+    parser.add_argument("--department", help="专业")
+    parser.add_argument("--class_", help="班级", required=False)
+    parser.add_argument("--phoneNumber", type=str)
+    parser.add_argument("--studentName", help="姓名")
+    parser.add_argument("--curplace", choices=["北京", "其他省市", "境外"])
+    parser.add_argument("--province", default="北京市")
+    parser.add_argument("--city", default="北京市")
+    parser.add_argument("--district", default="朝阳区")
+    parser.add_argument("--detailAddress", default="中国传媒大学48号教学楼")
+    parser.add_argument("--position", nargs=2, default=[116.55629, 39.91295], type=float, help="经度和维度")
+    parser.add_argument("--dorm", help="宿舍")
+    return parser.parse_args()
+
+
+def clock():
+    args = arguments()
+    sno = info.studentNumber if info.studentNumber else args.studentNumber
+    pwd = info.pwd if info.pwd else args.password
+    UA = info.userAgent if info.userAgent else args.userAgent
+    college = info.college if info.college else info.college
+    dept = info.department if info.department else info.department
+    class_ = info.class_ if info.class_ else args.class_
+    pno = info.phoneNumber if info.phoneNumber else args.phoneNumber
+    sname = info.studentName if info.studentName else args.studentName
+    curplace = info.curplace if info.curplace else args.curplace
+    province = info.province if info.province else args.province
+    city = info.city if info.city else args.city
+    district = info.district if info.district else args.district
+    detail = info.detailAddress if info.detailAddress else args.detailAddress
+    latitude = info.latitude if info.latitude else args.latitude
+    longitude = info.longitude if info.longitude else args.longitude
+    dorm = info.dorm if info.dorm else args.dorm
 
     JDY_SID, _csrf = get_jdy_info(sno, pwd)
     X_Csrf_Token = get_jdy_csrf(JDY_SID, _csrf, UA)
     post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, pno,
                   sname, curplace, province, city, district, latitude, longitude, detail, dorm)
+
+
+if __name__ == '__main__':
+    clock()
