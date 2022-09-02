@@ -3,7 +3,6 @@ import datetime
 import json
 import re
 import time
-
 import requests
 
 from ljy import info
@@ -299,6 +298,9 @@ def clock():
     latitude = info.latitude if info.latitude else args.latitude
     longitude = info.longitude if info.longitude else args.longitude
     dorm = info.dorm if info.dorm else args.dorm
+
+    # Test for GitHub Secrets
+    assert sno == "202220083900004"
 
     JDY_SID, _csrf = get_jdy_info(sno, pwd)
     X_Csrf_Token = get_jdy_csrf(JDY_SID, _csrf, UA)
