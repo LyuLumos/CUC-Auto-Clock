@@ -8,12 +8,12 @@ class_ = ""
 phoneNumber = "15635707310"
 studentName = "吕九洋"
 
-curplace = "其他省市"
-province = "山西省"
-city = "临汾市"
-district = "尧都区"
-detailAddress = "卧牛小区"
-latitude = float(111.528401)
-longitude = float(36.08473)
+curplace = "北京"
+province = "北京市"
+city = "北京市"
+district = "朝阳区"
+detailAddress = "三间房乡中国传媒大学"
+latitude = ""
+longitude = ""
 
-dorm = "校内公寓"
+dorm = "中国传媒大学校内8号楼东209"
