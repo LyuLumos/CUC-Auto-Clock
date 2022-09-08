@@ -22,6 +22,6 @@ python main.py -s StudentNumber -p Password
 
 A special thanks goes to [Jiahong Shao](https://github.com/1746104160) & [Jie Wu](https://github.com/CreeseWu).
 
-## DEBUGGING!
+## Attention
 
-`loginsso` > `aes.encrypt(password, salt)` 需要重新抓包验证，暂时无法调用。 
+(2022-09-08) 简道云打卡新增上传核酸图片，本程序目前不会上传该选项。

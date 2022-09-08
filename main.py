@@ -1,13 +1,16 @@
 import argparse
+import base64
 import datetime
 import json
 import re
 import time
-# from urllib.parse import quote
+from urllib.parse import quote
 
+import numpy as np
 import requests
-# from aes import encrypt
-# from requests.utils import dict_from_cookiejar
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+from requests.utils import dict_from_cookiejar
 
 from ljy import info
 
@@ -47,49 +50,80 @@ def get_jdy_csrf(JDY_SID, _csrf, UA):
     return re.findall(r'window.jdy_csrf_token = "(.*)"', data)[0]
 
 
-# def loginsso(username: str, password: str, UA: str):
-#     sess = requests.session()
-#     sess.headers = {
-#         'Accept': 'text/html,application/xhtml+xml,application/xml;' +
-#                   'q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-#         'Accept-Encoding': 'gzip, deflate, br',
-#         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-#         'Connection': 'keep-alive',
-#         'Content-Type': 'application/x-www-form-urlencoded',
-#         'Host': 'sso.cuc.edu.cn',
-#         'Origin': 'https://sso.cuc.edu.cn',
-#         'Pragma': 'no-cache',
-#         'Referer': 'https://sso.cuc.edu.cn/authserver/login',
-#         'Sec-Fetch-Dest': 'document',
-#         'Sec-Fetch-Mode': 'navigate',
-#         'Sec-Fetch-Site': 'cross-site',
-#         'Sec-Fetch-User': '?1',
-#         'Upgrade-Insecure-Requests': '1',
-#         'User-Agent': UA,
-#         'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="104"',
-#         'sec-ch-ua-mobile': '?0',
-#         'sec-ch-ua-platform': '"Linux"'
-#     }
-#     url = "https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/"
-#     login_html = sess.get(url).text
-#
-#     execution = re.findall(r'<input type="hidden" id="execution" name="execution" value="(.*)" />',
-#                            login_html)[0]
-#     salt = re.findall(r'<input type="hidden" id="pwdEncryptSalt" value="(.*)" /><input ',
-#                       login_html)[0]
-#     print(execution, salt, password)
-#     pwd = quote(encrypt(password, salt))
-#
-#     payload = f'username={username}&password={pwd}' + \
-#               f'&captcha=&_eventId=submit&cllt=userNameLogin&dllt=generalLogin&lt=&execution={execution}'
-#
-#     sess.request("POST", url, data=payload, allow_redirects=False)
-#     jdy_sess = requests.session()
-#     jdy_sess.cookies = sess.cookies
-#     jdy_sess.get('https://www.jiandaoyun.com/sso/custom/wxd6d77b944b3b0051/iss')
-#     jdy_sess.get('https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/')
-#     cookie_dict = dict_from_cookiejar(jdy_sess.cookies)
-#     return cookie_dict['JDY_SID'], cookie_dict['_csrf']
+AES_CHARS = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'W', 'X',
+    'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'm', 'n', 'p', 'r', 's', 't', 'w',
+    'x', 'y', 'z', '2', '3', '4', '5', '6', '7', '8'
+]
+
+
+def encrypt(pwd: str, key: str):
+    '''
+    Author: 邵佳泓
+    msg: 模拟SSO单点登录AES加密
+    param {str} key
+    param {str} aes_str
+    '''
+    regex = re.compile(r'(^\s+)|(\s+$)')
+    key = regex.sub('', key)
+    aes = AES.new(key.encode('utf-8'), AES.MODE_CBC,
+                  ''.join(np.random.choice(AES_CHARS, size=16)).encode('utf-8'))
+    pwd = ''.join(np.random.choice(AES_CHARS, size=64)) + pwd
+    pad_pkcs7 = pad(pwd.encode('utf-8'), AES.block_size, style='pkcs7')
+    encrypt_aes = aes.encrypt(pad_pkcs7)
+    encrypt_text = str(base64.encodebytes(encrypt_aes), encoding='utf-8').replace("\n", "")
+    return encrypt_text
+
+
+def loginsso(username: str, password: str, UA: str):
+    '''
+    Author: 邵佳泓
+    msg: 使用中传SSO单点登录
+    param {str} username
+    param {str} password
+    '''
+    sess = requests.session()
+    sess.headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;' +
+                  'q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Host': 'sso.cuc.edu.cn',
+        'Origin': 'https://sso.cuc.edu.cn',
+        'Pragma': 'no-cache',
+        'Referer': 'https://sso.cuc.edu.cn/authserver/login',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'cross-site',
+        'Sec-Fetch-User': '?1',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': UA,
+        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="104"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Linux"'
+    }
+    url = "https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/"
+    login_html = sess.get(url).text
+
+    execution = re.findall(r'<input type="hidden" id="execution" name="execution" value="(.*)" />',
+                           login_html)[0]
+    salt = re.findall(r'<input type="hidden" id="pwdEncryptSalt" value="(.*)" /><input ',
+                      login_html)[0]
+
+    pwd = quote(encrypt(password, salt))
+
+    payload = f'username={username}&password={pwd}' + \
+              f'&captcha=&_eventId=submit&cllt=userNameLogin&dllt=generalLogin&lt=&execution={execution}'
+
+    sess.request("POST", url, data=payload, allow_redirects=False)
+    jdy_sess = requests.session()
+    jdy_sess.cookies = sess.cookies
+    jdy_sess.get('https://www.jiandaoyun.com/sso/custom/wxd6d77b944b3b0051/iss')
+    jdy_sess.get('https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/')
+    cookie_dict = dict_from_cookiejar(jdy_sess.cookies)
+    return cookie_dict['JDY_SID'], cookie_dict['_csrf']
 
 
 def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, pno, sname, curplace, province, city,
@@ -348,7 +382,8 @@ def clock():
     longitude = info.longitude if info.longitude else args.position[1]
     dorm = info.dorm if info.dorm else args.dorm
 
-    JDY_SID, _csrf = get_jdy_info(sno, pwd)
+    # JDY_SID, _csrf = get_jdy_info(sno, pwd)
+    JDY_SID, _csrf = loginsso(sno, pwd, UA)
     X_Csrf_Token = get_jdy_csrf(JDY_SID, _csrf, UA)
     post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, pno,
                   sname, curplace, province, city, district, latitude, longitude, detail, dorm)
