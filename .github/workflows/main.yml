@@ -23,4 +23,5 @@ jobs:
           ljy_passwd: ${{ secrets.LJY_PASSWORD }}
         run: |
           pip install pycryptodome
+          pip install numpy
           python main.py -s "$ljy_stuno" -p "$ljy_passwd"
