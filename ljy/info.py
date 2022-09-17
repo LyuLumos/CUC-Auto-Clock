@@ -12,8 +12,8 @@ curplace = "北京"
 province = "北京市"
 city = "北京市"
 district = "朝阳区"
-detailAddress = "三间房乡中国传媒大学"
-latitude = ""
-longitude = ""
+detailAddress = "金盏七彩花园"
+latitude = float(116.64878)
+longitude = float(39.94653)
 
 dorm = "中国传媒大学校内8号楼东209"

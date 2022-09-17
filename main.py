@@ -38,7 +38,8 @@ def get_jdy_csrf(JDY_SID, _csrf, UA):
         'Host': 'www.jiandaoyun.com',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': UA,
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,'
+                  'application/signed-exchange;v=b3;q=0.9',
         'Sec-Fetch-Site': 'none',
         'Sec-Fetch-Mode': 'navigate',
         'Sec-Fetch-User': '?1',
@@ -50,11 +51,8 @@ def get_jdy_csrf(JDY_SID, _csrf, UA):
     return re.findall(r'window.jdy_csrf_token = "(.*)"', data)[0]
 
 
-AES_CHARS = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'W', 'X',
-    'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'm', 'n', 'p', 'r', 's', 't', 'w',
-    'x', 'y', 'z', '2', '3', '4', '5', '6', '7', '8'
-]
+AES_STR = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+AES_CHARS = list(AES_STR)
 
 
 def encrypt(pwd: str, key: str):
