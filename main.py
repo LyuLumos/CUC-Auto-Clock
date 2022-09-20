@@ -124,7 +124,7 @@ def loginsso(username: str, password: str, UA: str):
     return cookie_dict['JDY_SID'], cookie_dict['_csrf']
 
 
-def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, pno, sname, curplace, province, city,
+def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, class_, pno, sname, curplace, province, city,
                   district, latitude, longitude, detail, dorm):
     cookies = {
         'help_btn_visible': 'true',
@@ -155,7 +155,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, 
         "values": {
             "_widget_1581259263912": {
                 # 发起者， "62f4a3af1fd85000082d703c" for ljy
-                "data": "62f4a3af1fd85000082d703c",
+                "data": userid,
                 "visible": true
             },
             "_widget_1581325409790": {
@@ -273,7 +273,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, 
                 "visible": true
             },
             "_widget_1661251623043": {
-                # 🐏才用填的截图
+                # 核酸检测截图，由于健康宝只返回数据前端渲染，故暂时无法自动化
                 "data": [],
                 "visible": false
             },
@@ -344,6 +344,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, 
 def arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--studentNumber", help="校园卡账号")
+    parser.add_argument("--userid", help="发起者编号", default="62f4a3af1fd85000082d703c")
     parser.add_argument("--userAgent", help="User Agent")
     parser.add_argument("-p", "--password", help="校园网密码")
     parser.add_argument("--college", default="计算机与网络空间安全学院", help="学院")
@@ -365,6 +366,7 @@ def clock():
     args = arguments()
     sno = info.studentNumber if info.studentNumber else args.studentNumber
     pwd = info.pwd if info.pwd else args.password
+    userid = info.userid if info.userid else args.userid
     UA = info.userAgent if info.userAgent else args.userAgent
     college = info.college if info.college else info.college
     dept = info.department if info.department else info.department
@@ -383,7 +385,7 @@ def clock():
     # JDY_SID, _csrf = get_jdy_info(sno, pwd)
     JDY_SID, _csrf = loginsso(sno, pwd, UA)
     X_Csrf_Token = get_jdy_csrf(JDY_SID, _csrf, UA)
-    post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, sno, college, dept, class_, pno,
+    post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, class_, pno,
                   sname, curplace, province, city, district, latitude, longitude, detail, dorm)
 
 
