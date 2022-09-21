@@ -12,7 +12,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from requests.utils import dict_from_cookiejar
 
-from ljy import info
+import info
 
 true = True
 false = False
@@ -352,11 +352,11 @@ def arguments():
     parser.add_argument("--class_", help="班级", required=False)
     parser.add_argument("--phoneNumber", type=str)
     parser.add_argument("--studentName", help="姓名")
-    parser.add_argument("--curplace", choices=["北京", "其他省市", "境外"])
+    parser.add_argument("--curplace", choices=["北京", "其他省市", "境外"], default="北京")
     parser.add_argument("--province", default="北京市")
     parser.add_argument("--city", default="北京市")
     parser.add_argument("--district", default="朝阳区")
-    parser.add_argument("--detailAddress", default="中国传媒大学48号教学楼")
+    parser.add_argument("--detailAddress", default="中国传媒大学")
     parser.add_argument("--position", nargs=2, default=[116.55629, 39.91295], type=float, help="经度和维度")
     parser.add_argument("--dorm", help="宿舍")
     return parser.parse_args()

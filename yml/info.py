@@ -6,8 +6,8 @@ pwd = ""
 college = "计算机与网络空间安全学院"
 department = "网络空间安全"
 class_ = ""
-phoneNumber = "15635707310"
-studentName = "吕九洋"
+phoneNumber = "15695605985"
+studentName = "于梦丽"
 
 curplace = "北京"
 province = "北京市"
@@ -17,4 +17,4 @@ detailAddress = "中国传媒大学"
 latitude = float()
 longitude = float()
 
-dorm = "中国传媒大学校内8号楼东209"
+dorm = "中国传媒大学梆子井公寓"
