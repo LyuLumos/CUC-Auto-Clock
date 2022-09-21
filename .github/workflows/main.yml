@@ -19,6 +19,13 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run the Python Script for LJY
         env:
+          ljy_stuno: ${{ secrets.LJY_STUDENT_NUMBER }}
+          ljy_passwd: ${{ secrets.LJY_PASSWORD }}
+        run: |
+          cp main.py ljy/
+          python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd"
+      - name: Run the Python Script for CWX
+        env:
           cwx_userid: ${{ secrets.CWX_ID }}
           cwx_stuno: ${{ secrets.CWX_USER }}
           cwx_passwd: ${{ secrets.CWX_PASSWD }}
@@ -26,20 +33,11 @@ jobs:
           pip install -r requirements.txt
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
-      - name: Run the Python Script for CWX
-        env:
-          ljy_stuno: ${{ secrets.LJY_STUDENT_NUMBER }}
-          ljy_passwd: ${{ secrets.LJY_PASSWORD }}
-        run: |
-          pip install -r requirements.txt
-          cp main.py ljy/
-          python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd"
       - name: Run the Python Script for YML
         env:
           yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
           yml_passwd_p1: ${{ secrets.YML_PASSWORD1 }}
           yml_passwd_p2: ${{ secrets.YML_PASSWORD2 }}
         run: |
-          pip install -r requirements.txt
           cp main.py yml/
-          python yml/main.py -s "$yml_stuno" -p "${str1}!${str2}"
+          python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}!${yml_passwd_p2}"
