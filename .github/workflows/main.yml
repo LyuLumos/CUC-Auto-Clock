@@ -41,4 +41,4 @@ jobs:
           yml_passwd_p2: ${{ secrets.YML_PASSWORD2 }}
         run: |
           cp main.py yml/
-          python yml/main.py -s "$yml_stuno" -p "${str1}%${str2}" --userid "$yml_userid"
+          python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
