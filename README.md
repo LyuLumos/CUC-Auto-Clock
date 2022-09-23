@@ -4,20 +4,15 @@
 
 ## Start
 
-在 `info.py` 中更改自己的信息，并将 `main.py` 中的 `info.py` 修改为自己的配置文件。
-
-也可以在命令行中补全
+本地运行请首先复制 `info-template.py` 为 `info.py`，在其中添加自己的信息。（该文件不会上传至git）
 
 ```bash
-python main.py -s StudentNumber -p Password
+python main.py -s StudentNumber -p Password --userid UserID
 ```
 
+关于上述的 `UserID`，强烈建议手动抓包，对应简道云打卡的 `发起者` 项，默认使用ljy的UserID（不建议）
+
 使用 `python main.py -h` 查看更多用法。
-
-
-## Acknowledgment
-
-A special thanks goes to [Jiahong Shao](https://github.com/1746104160) & [Jie Wu](https://github.com/CreeseWu).
 
 ## Attention
 
@@ -27,6 +22,11 @@ A special thanks goes to [Jiahong Shao](https://github.com/1746104160) & [Jie Wu
 
 目前使用 `GitHub Action` 已完成初步测试，如有需要请遵照以下步骤：
 
-1. 在 `Setting` > `Secrets` 中添加必要的安全信息，请联系 @LyuLumos，并使用其计算机添加，以保证信息安全性。
+1. 在 `Setting` > `Secrets` 中添加必要的隐私信息，请联系 @LyuLumos，并使用其计算机添加，以保证信息安全性。
 2. 新建个人文件夹 `{user}/`，并仿照 `info.py` 修改自己的 `{user}/info.py`。
 3. 在 workflow 配置文件中仿照上文添加自己的任务。
+PS. `GitHub.Action.Secrets` 不支持特殊符号，如感叹号 `!` 、百分号 `%`，如有涉及请拆分密码。[GitHub官方文档](https://docs.github.com/en/actions/security-guides/encrypted-secrets#naming-your-secrets)
+
+## Acknowledgment
+
+A special thanks goes to [Jiahong Shao](https://github.com/1746104160) & [Jie Wu](https://github.com/CreeseWu).

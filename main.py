@@ -3,6 +3,7 @@ import base64
 import datetime
 import json
 import re
+import sys
 import time
 from urllib.parse import quote
 
@@ -124,7 +125,8 @@ def loginsso(username: str, password: str, UA: str):
     return cookie_dict['JDY_SID'], cookie_dict['_csrf']
 
 
-def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, class_, pno, sname, curplace, province, city,
+def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, class_, pno, sname, curplace, province,
+                  city,
                   district, latitude, longitude, detail, dorm):
     cookies = {
         'help_btn_visible': 'true',
@@ -364,6 +366,7 @@ def arguments():
 
 def clock():
     args = arguments()
+    # info 优先级高于 default
     sno = info.studentNumber if info.studentNumber else args.studentNumber
     pwd = info.pwd if info.pwd else args.password
     userid = info.userid if info.userid else args.userid
@@ -382,8 +385,15 @@ def clock():
     longitude = info.longitude if info.longitude else args.position[1]
     dorm = info.dorm if info.dorm else args.dorm
 
+    # This function will call an API from JieWU
     # JDY_SID, _csrf = get_jdy_info(sno, pwd)
-    JDY_SID, _csrf = loginsso(sno, pwd, UA)
+
+    try:
+        JDY_SID, _csrf = loginsso(sno, pwd, UA)
+    except KeyError as Argument:
+        print("登录失败，请检查账号与密码信息。 Key", Argument, "不存在。")
+        sys.exit(1)
+
     X_Csrf_Token = get_jdy_csrf(JDY_SID, _csrf, UA)
     post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, class_, pno,
                   sname, curplace, province, city, district, latitude, longitude, detail, dorm)
