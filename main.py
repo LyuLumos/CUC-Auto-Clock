@@ -156,7 +156,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, 
     data = {
         "values": {
             "_widget_1581259263912": {
-                # 发起者， "62f4a3af1fd85000082d703c" for ljy
+                # 发起者， "62f4a3af1fd85000082d703c" for ljy  62f30fea1fd8500008d976c0
                 "data": userid,
                 "visible": true
             },

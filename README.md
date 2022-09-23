@@ -25,6 +25,7 @@ python main.py -s StudentNumber -p Password --userid UserID
 1. 在 `Setting` > `Secrets` 中添加必要的隐私信息，请联系 @LyuLumos，并使用其计算机添加，以保证信息安全性。
 2. 新建个人文件夹 `{user}/`，并仿照 `info.py` 修改自己的 `{user}/info.py`。
 3. 在 workflow 配置文件中仿照上文添加自己的任务。
+
 PS. `GitHub.Action.Secrets` 不支持特殊符号，如感叹号 `!` 、百分号 `%`，如有涉及请拆分密码。[GitHub官方文档](https://docs.github.com/en/actions/security-guides/encrypted-secrets#naming-your-secrets)
 
 ## Acknowledgment

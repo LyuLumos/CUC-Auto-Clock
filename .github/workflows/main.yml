@@ -33,3 +33,12 @@ jobs:
         run: |
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
+      - name: Run the Python Script for YML
+        env:
+          yml_userid: $ {{ secrets.YML_ID }}
+          yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
+          yml_passwd_p1: ${{ secrets.YML_PASSWORD1 }}
+          yml_passwd_p2: ${{ secrets.YML_PASSWORD2 }}
+        run: |
+          cp main.py yml/
+          python yml/main.py -s "$yml_stuno" -p "${str1}%${str2}" --userid "$yml_userid"
