@@ -25,7 +25,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           cp main.py ljy/
-          python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd"
+          python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd" --userid "$ljy_userid"
       - name: Run the Python Script for CWX
         env:
           cwx_userid: ${{ secrets.CWX_ID }}

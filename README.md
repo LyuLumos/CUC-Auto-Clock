@@ -1,6 +1,7 @@
 # CUC-Auto-Clock
 简道云自动打卡
 
+[![CUC-Auto-Clock CI](https://github.com/LyuLumos/CUC-Auto-Clock/actions/workflows/main.yml/badge.svg)](https://github.com/LyuLumos/CUC-Auto-Clock/actions/workflows/main.yml)
 
 ## Start
 
