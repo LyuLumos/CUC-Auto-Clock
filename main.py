@@ -156,7 +156,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, 
     data = {
         "values": {
             "_widget_1581259263912": {
-                # 发起者， "62f4a3af1fd85000082d703c" for ljy  62f30fea1fd8500008d976c0
+                # 发起者
                 "data": userid,
                 "visible": true
             },
@@ -346,7 +346,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, 
 def arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--studentNumber", help="校园卡账号")
-    parser.add_argument("--userid", help="发起者编号", default="62f4a3af1fd85000082d703c")
+    parser.add_argument("--userid", help="发起者编号")
     parser.add_argument("--userAgent", help="User Agent")
     parser.add_argument("-p", "--password", help="校园网密码")
     parser.add_argument("--college", default="计算机与网络空间安全学院", help="学院")

@@ -10,7 +10,7 @@
 python main.py -s StudentNumber -p Password --userid UserID
 ```
 
-关于上述的 `UserID`，强烈建议手动抓包，对应简道云打卡的 `发起者` 项，默认使用ljy的UserID（不建议）
+上述的 `UserID` 为「发起者」对应的ID，请进行手机抓包获取。
 
 使用 `python main.py -h` 查看更多用法。
 
@@ -27,6 +27,8 @@ python main.py -s StudentNumber -p Password --userid UserID
 3. 在 workflow 配置文件中仿照上文添加自己的任务。
 
 PS. `GitHub.Action.Secrets` 不支持特殊符号，如感叹号 `!` 、百分号 `%`，如有涉及请拆分密码。[GitHub官方文档](https://docs.github.com/en/actions/security-guides/encrypted-secrets#naming-your-secrets)
+
+`{user}/info.py` 对仓库的所有者与协作者公开，请勿上传隐私信息。
 
 ## Acknowledgment
 
