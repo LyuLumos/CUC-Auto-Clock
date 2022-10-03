@@ -34,6 +34,14 @@ jobs:
         run: |
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
+      - name: Run the Python Script for LZQ
+        env:
+          lzq_userid: ${{ secrets.LZQ_USER }}
+          lzq_stuno: ${{ secrets.LZQ_ID }}
+          lzq_passwd: ${{ secrets.LZQ_PASSWD }}
+        run: |
+          cp main.py lzq/
+          python lzq/main.py -s "$lzq_stuno" -p "$lzq_passwd" --userid "$lzq_userid"
       - name: Run the Python Script for YML
         env:
           yml_userid: $ {{ secrets.YML_ID }}
