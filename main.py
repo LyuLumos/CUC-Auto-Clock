@@ -54,6 +54,7 @@ def get_jdy_csrf(JDY_SID, _csrf, UA):
 
 AES_STR = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
 AES_CHARS = list(AES_STR)
+default_User_Agent = "Mozilla/5.0 (Linux; Android 10; PCT-AL10 Build/HUAWEIPCT-AL10; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36"
 
 
 def encrypt(pwd: str, key: str):
@@ -110,7 +111,7 @@ def loginsso(username: str, password: str, UA: str):
     payload = f'username={username}&password={pwd}' + \
               f'&captcha=&_eventId=submit&cllt=userNameLogin&dllt=generalLogin&lt=&execution={execution}'
 
-    t = sess.request("POST", url, data=payload, allow_redirects=False)
+    sess.request("POST", url, data=payload, allow_redirects=False)
 
     jdy_sess = requests.session()
     jdy_sess.cookies = sess.cookies
@@ -347,7 +348,7 @@ def arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--studentNumber", help="校园卡账号")
     parser.add_argument("--userid", help="发起者编号")
-    parser.add_argument("--userAgent", help="User Agent")
+    parser.add_argument("--userAgent", default=default_User_Agent, help="User Agent")
     parser.add_argument("-p", "--password", help="校园网密码")
     parser.add_argument("--college", default="计算机与网络空间安全学院", help="学院")
     parser.add_argument("--department", help="专业")
