@@ -18,6 +18,7 @@ python main.py -s StudentNumber -p Password --userid UserID
 ## Attention
 
 (2022-09-08) 简道云打卡新增上传核酸图片，本程序目前不会上传该选项。
+(2022=10-05) 简道云更新机制，已进行对应修改，之前的版本不再有效。 
 
 ## 持续集成服务 :: Steps
 

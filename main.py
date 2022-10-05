@@ -75,12 +75,6 @@ def encrypt(pwd: str, key: str):
 
 
 def loginsso(username: str, password: str, UA: str):
-    '''
-    Author: 邵佳泓
-    msg: 使用中传SSO单点登录
-    param {str} username
-    param {str} password
-    '''
     sess = requests.session()
     sess.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;' +
@@ -116,12 +110,18 @@ def loginsso(username: str, password: str, UA: str):
     payload = f'username={username}&password={pwd}' + \
               f'&captcha=&_eventId=submit&cllt=userNameLogin&dllt=generalLogin&lt=&execution={execution}'
 
-    sess.request("POST", url, data=payload, allow_redirects=False)
+    t = sess.request("POST", url, data=payload, allow_redirects=False)
+
     jdy_sess = requests.session()
     jdy_sess.cookies = sess.cookies
+    jdy_sess.headers.update({'User-Agent': UA})
     jdy_sess.get('https://www.jiandaoyun.com/sso/custom/wxd6d77b944b3b0051/iss')
     jdy_sess.get('https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/')
+    jdy_sess.get('https://www.jiandaoyun.com/dashboard#/app/5f36523524018e0006723761/form/5f1039fca2c60000075671b0')
+    jdy_sess.get('https://www.jiandaoyun.com/dashboard#')
     cookie_dict = dict_from_cookiejar(jdy_sess.cookies)
+
+    # print(cookie_dict)
     return cookie_dict['JDY_SID'], cookie_dict['_csrf']
 
 
