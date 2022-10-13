@@ -16,6 +16,7 @@ jobs:
   build-ljy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Run the Python Script for LJY
         env:
           ljy_userid: ${{ secrets.LJY_ID }}
@@ -28,6 +29,7 @@ jobs:
   build-cwx:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Run the Python Script for CWX
         env:
           cwx_userid: ${{ secrets.CWX_ID }}
@@ -43,15 +45,25 @@ jobs:
     if: failure()
     steps:
     - uses: actions/checkout@v3
-    - name: Send an Email if failed
-      uses: dawidd6/action-send-mail@master
+    - name: Send mail
+      uses: dawidd6/action-send-mail@v3
       with:
-        serveraddress: smtp.qq.com
-        serverport: 465
+        server_address: smtp.qq.com
+        # Server port, default 25:
+        server_port: 465
+        # Optional whether this connection use TLS (default is true if server_port is 465)
+        secure: true
+        # Optional (recommended): mail server username:
         username: ${{ secrets.MAIL_ACCOUNT }}
+        # Optional (recommended) mail server password:
         password: ${{ secrets.MAIL_PASSWORD }}
-        subject: 'GitHub Action Test User'
-        body: 'Test Email'
+        # Required mail subject:
+        subject: Github Actions job result
+        # Required recipients' addresses:
         to: lyujiuyang@cuc.edu.cn
-        from: GitHub Actions
-        content_type: text/html
+        # Required sender full name (address can be skipped):
+        from: GitHub Action # <user@example.com>
+        # Optional plain body:
+        body: Build job of ${{github.repository}} Error!
+        # Optional HTML body read from file:
+        html_body: 'Test Email'
