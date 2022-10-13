@@ -80,7 +80,7 @@ jobs:
         secure: true
         username: ${{ secrets.MAIL_ACCOUNT }}
         password: ${{ secrets.MAIL_PASSWORD }}
-        subject: （自动报错反馈测试） Github Actions Jobs ERROR
+        subject:  Github Actions Jobs ERROR
         to: lyujiuyang@cuc.edu.cn, cwx_cuc@cuc.edu.cn, yyumengli@163.com
         from: LyuLumos from GitHub Action
-        html_body: 这是一条手动报错测试，请勿回复。Build jobs of ${{ github.repository }} Error! Please check <a href="https://github.com/LyuLumos/CUC-Auto-Clock/actions" target="_blank">https://github.com/LyuLumos/CUC-Auto-Clock/actions</a> for more details.
+        html_body: Build jobs of ${{ github.repository }} Error! Please check <a href="https://github.com/LyuLumos/CUC-Auto-Clock/actions" target="_blank">https://github.com/LyuLumos/CUC-Auto-Clock/actions</a> for more details.
