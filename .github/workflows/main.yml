@@ -38,30 +38,9 @@ jobs:
         run: |
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
-      - name: Run the Python Script for LZQ
-        continue-on-error: true
-        id: lzq
-        env:
-          lzq_userid: ${{ secrets.LZQ_USER }}
-          lzq_stuno: ${{ secrets.LZQ_ID }}
-          lzq_passwd: ${{ secrets.LZQ_PASSWD }}
-        run: |
-          cp main.py lzq/
-          python lzq/main.py -s "$lzq_stuno" -p "$lzq_passwd" --userid "$lzq_userid"
-      - name: Run the Python Script for YML
-        continue-on-error: true
-        id: yml
-        env:
-          yml_userid: $ {{ secrets.YML_ID }}
-          yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
-          yml_passwd_p1: ${{ secrets.YML_PASSWORD1 }}
-          yml_passwd_p2: ${{ secrets.YML_PASSWORD2 }}
-        run: |
-          cp main.py yml/
-          python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
   restart_when_failed:
     runs-on: ubuntu-latest
-    if: failure()
+    if: env.WORKFLOW_CONCLUSION == 'failure'
     needs: build
     steps:
     - uses: actions/checkout@v3
