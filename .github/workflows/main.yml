@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run the Python Script for LJY
+        continue-on-error: true
+        id: ljy
         env:
           ljy_userid: ${{ secrets.LJY_ID }}
           ljy_stuno: ${{ secrets.LJY_STUDENT_NUMBER }}
@@ -27,6 +29,8 @@ jobs:
           cp main.py ljy/
           python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd" --userid "$ljy_userid"
       - name: Run the Python Script for CWX
+        continue-on-error: true
+        id: cwx
         env:
           cwx_userid: ${{ secrets.CWX_ID }}
           cwx_stuno: ${{ secrets.CWX_USER }}
@@ -35,6 +39,8 @@ jobs:
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
       - name: Run the Python Script for LZQ
+        continue-on-error: true
+        id: lzq
         env:
           lzq_userid: ${{ secrets.LZQ_USER }}
           lzq_stuno: ${{ secrets.LZQ_ID }}
@@ -43,6 +49,8 @@ jobs:
           cp main.py lzq/
           python lzq/main.py -s "$lzq_stuno" -p "$lzq_passwd" --userid "$lzq_userid"
       - name: Run the Python Script for YML
+        continue-on-error: true
+        id: yml
         env:
           yml_userid: $ {{ secrets.YML_ID }}
           yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
@@ -51,3 +59,20 @@ jobs:
         run: |
           cp main.py yml/
           python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
+  restart_when_failed:
+    - runs-on: ubuntu-latest
+      if: failure()
+      needs: build
+      steps:
+      - name: Send an Email if failed
+        uses: dawidd6/action-send-mail@master
+        with:
+          serveraddress: smtp.qq.com
+          serverport: 465
+          username: ${{ secrets.MAIL_ACCOUNT }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: 'GitHub Action Test User'
+          body: 'Test Email'
+          to: lyujiuyang@cuc.edu.cn
+          from: GitHub Actions
+          content_type: text/html
