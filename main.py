@@ -101,8 +101,8 @@ def loginsso(username: str, password: str, UA: str):
     url = "https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/"
     login_html = sess.get(url).text
 
-    execution = re.findall(r'<input type="hidden" id="execution" name="execution" value="(.*)" />',
-                           login_html)[0]
+    execution = quote(re.findall(r'<input type="hidden" id="execution" name="execution" value="(.*)" />',
+                           login_html)[0])
     salt = re.findall(r'<input type="hidden" id="pwdEncryptSalt" value="(.*)" /><input ',
                       login_html)[0]
 
@@ -118,8 +118,9 @@ def loginsso(username: str, password: str, UA: str):
     jdy_sess.headers.update({'User-Agent': UA})
     jdy_sess.get('https://www.jiandaoyun.com/sso/custom/wxd6d77b944b3b0051/iss')
     jdy_sess.get('https://sso.cuc.edu.cn/authserver/login?service=https://jdy.cuc.edu.cn/')
-    jdy_sess.get('https://www.jiandaoyun.com/dashboard#/app/5f36523524018e0006723761/form/5f1039fca2c60000075671b0')
-    jdy_sess.get('https://www.jiandaoyun.com/dashboard#')
+    jdy_sess.get('https://www.jiandaoyun.com/_/app/5f36523524018e0006723761/form/5f1039fca2c60000075671b0')
+    jdy_sess.get('https://www.jiandaoyun.com/dashboard')
+
     cookie_dict = dict_from_cookiejar(jdy_sess.cookies)
 
     # print(cookie_dict)
@@ -127,15 +128,14 @@ def loginsso(username: str, password: str, UA: str):
 
 
 def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, class_, pno, sname, curplace, province,
-                  city,
-                  district, latitude, longitude, detail, dorm):
+                  city, district, latitude, longitude, detail, dorm):
     cookies = {
         'help_btn_visible': 'true',
         'JDY_SID': JDY_SID,
         '_csrf': _csrf,
         'fx-lang': 'zh_cn',
-        'Hm_lvt_48ee90f250328e7eaea0c743a4c3a339': '1652244024',
-        'Hm_lpvt_48ee90f250328e7eaea0c743a4c3a339': '1652244287',
+        'Hm_lvt_48ee90f250328e7eaea0c743a4c3a339': '1664946896',
+        'Hm_lpvt_48ee90f250328e7eaea0c743a4c3a339': '1665582654',
     }
     headers = {
         'Host': 'www.jiandaoyun.com',
@@ -145,7 +145,7 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, 
         'User-Agent': UA,
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json, text/plain, */*',
-        'X-Jdy-Ver': '4.8.0',
+        'X-Jdy-Ver': '5.7.1',
         'Origin': 'https://www.jiandaoyun.com',
         'Sec-Fetch-Site': 'same-origin',
         'Sec-Fetch-Mode': 'cors',
@@ -153,7 +153,8 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, 
         'Referer': 'https://www.jiandaoyun.com/dashboard',
         'Accept-Language': 'zh-CN,zh;q=0.9',
     }
-    URL = "https://www.jiandaoyun.com/_/data/create"
+
+    URL = "https://www.jiandaoyun.com/_/data_process/data/create"
     data = {
         "values": {
             "_widget_1581259263912": {
