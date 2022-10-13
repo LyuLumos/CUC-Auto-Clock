@@ -56,6 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Run the Python Script for YML
         env:
           yml_userid: $ {{ secrets.YML_ID }}
           yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
@@ -82,4 +83,4 @@ jobs:
         subject: Github Actions Jobs ERROR
         to: lyujiuyang@cuc.edu.cn
         from: LyuLumos from GitHub Action
-        body: Build jobs of ${{ github.repository }} Error! Please check <a href="https://github.com/LyuLumos/CUC-Auto-Clock/actions" target="_blank">https://github.com/LyuLumos/CUC-Auto-Clock/actions</a> for more details.
+        html_body: Build jobs of ${{ github.repository }} Error! Please check <a href="https://github.com/LyuLumos/CUC-Auto-Clock/actions" target="_blank">https://github.com/LyuLumos/CUC-Auto-Clock/actions</a> for more details.

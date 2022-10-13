@@ -35,6 +35,8 @@ PS. `GitHub.Action.Secrets` 不支持特殊符号，如感叹号 `!` 、百分�
 
 `{user}/info.py` 对仓库的所有者与协作者公开，请勿上传隐私信息。
 
+所有打卡任务并行处理，任何一个任务失败都会向所有用户抄送错误报告。
+
 ## Acknowledgment
 
 A special thanks goes to [Jiahong Shao](https://github.com/1746104160) & [Jie Wu](https://github.com/CreeseWu).
