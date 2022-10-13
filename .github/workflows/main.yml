@@ -13,13 +13,10 @@ on:
 
 
 jobs:
-  build:
+  build-ljy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: Run the Python Script for LJY
-        continue-on-error: true
-        id: ljy
         env:
           ljy_userid: ${{ secrets.LJY_ID }}
           ljy_stuno: ${{ secrets.LJY_STUDENT_NUMBER }}
@@ -28,20 +25,22 @@ jobs:
           pip install -r requirements.txt
           cp main.py ljy/
           python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd" --userid "$ljy_userid"
+  build-cwx:
+    runs-on: ubuntu-latest
+    steps:
       - name: Run the Python Script for CWX
-        continue-on-error: true
-        id: cwx
         env:
           cwx_userid: ${{ secrets.CWX_ID }}
           cwx_stuno: ${{ secrets.CWX_USER }}
           cwx_passwd: ${{ secrets.CWX_PASSWD }}
         run: |
+          pip install -r requirements.txt
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
   restart_when_failed:
     runs-on: ubuntu-latest
-    if: env.WORKFLOW_CONCLUSION == 'failure'
-    needs: build
+    needs: [build-ljy, build-cwx]
+    if: failure()s
     steps:
     - uses: actions/checkout@v3
     - name: Send an Email if failed
