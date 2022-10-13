@@ -81,6 +81,6 @@ jobs:
         username: ${{ secrets.MAIL_ACCOUNT }}
         password: ${{ secrets.MAIL_PASSWORD }}
         subject: （自动报错反馈测试） Github Actions Jobs ERROR
-        to: ${{ secrets.LJY_EMAIL }}, ${{ secrets.CWX_EMAIL }}, ${{ secrets.YML_EMAIL }
+        to: ${{ secrets.LJY_EMAIL }},${{ secrets.CWX_EMAIL }},${{ secrets.YML_EMAIL }
         from: LyuLumos from GitHub Action
         html_body: 这是一条手动报错测试，请勿回复。Build jobs of ${{ github.repository }} Error! Please check <a href="https://github.com/LyuLumos/CUC-Auto-Clock/actions" target="_blank">https://github.com/LyuLumos/CUC-Auto-Clock/actions</a> for more details.
