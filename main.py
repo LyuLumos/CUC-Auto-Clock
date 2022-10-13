@@ -342,7 +342,16 @@ def post_jdy_data(JDY_SID, _csrf, X_Csrf_Token, UA, userid, sno, college, dept, 
         headers=headers,
         cookies=cookies,
     )
-    print(response.text)
+    inf = response.text
+    print(inf)
+    if sno == "202220083900004":
+        inf = "测试数据"
+    if ('今日健康日报数据提交成功' in inf) or ('提交值重复' in inf):
+        pass
+    else:
+        print("Single User Error")
+        exit(1)
+
 
 
 def arguments():
