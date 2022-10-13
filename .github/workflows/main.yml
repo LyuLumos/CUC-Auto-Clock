@@ -62,10 +62,10 @@ jobs:
           yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
           yml_passwd_p1: ${{ secrets.YML_PASSWORD1 }}
           yml_passwd_p2: ${{ secrets.YML_PASSWORD2 }}
-          run: |
-            pip install -r requirements.txt
-            cp main.py yml/
-            python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
+        run: |
+          pip install -r requirements.txt
+          cp main.py yml/
+          python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
   send_email_when_failed:
     runs-on: ubuntu-latest
     needs: [build-ljy, build-cwx, build-lzq, build-yml]
