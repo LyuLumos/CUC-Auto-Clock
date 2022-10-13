@@ -39,9 +39,35 @@ jobs:
           pip install -r requirements.txt
           cp main.py cwx/
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
+  build-lzq:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run the Python Script for LZQ
+        env:
+          lzq_userid: ${{ secrets.LZQ_USER }}
+          lzq_stuno: ${{ secrets.LZQ_ID }}
+          lzq_passwd: ${{ secrets.LZQ_PASSWD }}
+        run: |
+          pip install -r requirements.txt
+          cp main.py lzq/
+          python lzq/main.py -s "$lzq_stuno" -p "$lzq_passwd" --userid "$lzq_userid"
+  build-yml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        env:
+          yml_userid: $ {{ secrets.YML_ID }}
+          yml_stuno: ${{ secrets.YML_STUDENT_NUMBER }}
+          yml_passwd_p1: ${{ secrets.YML_PASSWORD1 }}
+          yml_passwd_p2: ${{ secrets.YML_PASSWORD2 }}
+          run: |
+            pip install -r requirements.txt
+            cp main.py yml/
+            python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
   restart_when_failed:
     runs-on: ubuntu-latest
-    needs: [build-ljy, build-cwx]
+    needs: [build-ljy, build-cwx, build-lzq, build-yml]
     if: failure()
     steps:
     - uses: actions/checkout@v3
@@ -49,21 +75,12 @@ jobs:
       uses: dawidd6/action-send-mail@v3
       with:
         server_address: smtp.qq.com
-        # Server port, default 25:
         server_port: 465
-        # Optional whether this connection use TLS (default is true if server_port is 465)
         secure: true
-        # Optional (recommended): mail server username:
         username: ${{ secrets.MAIL_ACCOUNT }}
-        # Optional (recommended) mail server password:
         password: ${{ secrets.MAIL_PASSWORD }}
-        # Required mail subject:
-        subject: Github Actions job result
-        # Required recipients' addresses:
+        subject: Github Actions Jobs ERROR
         to: lyujiuyang@cuc.edu.cn
-        # Required sender full name (address can be skipped):
-        from: GitHub Action # <user@example.com>
-        # Optional plain body:
-        body: Build job of ${{github.repository}} Error!
-        # Optional HTML body read from file:
-        html_body: 'Test Email'
+        from: LyuLumos from GitHub Action
+        body: Build job of ${{ github.repository }} Error!
+#        html_body: '自动打卡的某个或某几个任务失效，请查看GitHub Action记录。'
