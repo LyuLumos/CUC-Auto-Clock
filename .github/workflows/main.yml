@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: "21 7 * * *"
+    - cron: "21 5 * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -81,6 +81,6 @@ jobs:
         username: ${{ secrets.MAIL_ACCOUNT }}
         password: ${{ secrets.MAIL_PASSWORD }}
         subject:  Github Actions Jobs ERROR
-        to: lyujiuyang@cuc.edu.cn, cwx_cuc@cuc.edu.cn, yyumengli@163.com
+        to: lyujiuyang@cuc.edu.cn, cwx_cuc@cuc.edu.cn, yyumengli@163.com, lzqcuc@cuc.edu.cn
         from: LyuLumos from GitHub Action
         html_body: Build jobs of ${{ github.repository }} Error! Please check <a href="https://github.com/LyuLumos/CUC-Auto-Clock/actions" target="_blank">https://github.com/LyuLumos/CUC-Auto-Clock/actions</a> for more details.
