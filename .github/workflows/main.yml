@@ -15,6 +15,7 @@ on:
 jobs:
   build-ljy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - name: Run the Python Script for LJY
@@ -28,6 +29,7 @@ jobs:
           python ljy/main.py -s "$ljy_stuno" -p "$ljy_passwd" --userid "$ljy_userid"
   build-cwx:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - name: Run the Python Script for CWX
@@ -41,6 +43,7 @@ jobs:
           python cwx/main.py -s "$cwx_stuno" -p "$cwx_passwd" --userid "$cwx_userid"
   build-lzq:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - name: Run the Python Script for LZQ
@@ -54,6 +57,7 @@ jobs:
           python lzq/main.py -s "$lzq_stuno" -p "$lzq_passwd" --userid "$lzq_userid"
   build-yml:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - name: Run the Python Script for YML
@@ -68,6 +72,7 @@ jobs:
           python yml/main.py -s "$yml_stuno" -p "${yml_passwd_p1}%${yml_passwd_p2}" --userid "$yml_userid"
   send_email_when_failed:
      runs-on: ubuntu-latest
+     timeout-minutes: 60
      needs: [build-ljy, build-cwx, build-lzq, build-yml]
      if: failure()
      steps:
