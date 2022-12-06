@@ -23,6 +23,8 @@ python main.py -s StudentNumber -p Password --userid UserID
 
 (2022-10-12) 简道云更新版本，API地址发生改变。
 
+(2022-12-6) 因学校政策变化，不再需要简道云打卡，此项目workflow取消，可前往历史记录查看配置。
+
 ## 持续集成服务 :: Steps
 
 目前使用 `GitHub Action` 已完成初步测试，如有需要请遵照以下步骤：
